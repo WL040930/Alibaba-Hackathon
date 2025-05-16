@@ -1,7 +1,7 @@
-import 'package:education/core/widget/k_app_bar.dart';
-import 'package:education/core/widget/k_padding.dart';
-import 'package:education/core/widget/k_page.dart';
-import 'package:education/core/widget/k_switch_title.dart';
+import 'package:Finance/core/widget/k_app_bar.dart';
+import 'package:Finance/core/widget/k_padding.dart';
+import 'package:Finance/core/widget/k_page.dart';
+import 'package:Finance/core/widget/k_switch_title.dart';
 import 'package:flutter/material.dart';
 
 class Settings extends StatefulWidget {

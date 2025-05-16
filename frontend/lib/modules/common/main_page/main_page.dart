@@ -1,5 +1,5 @@
-import 'package:education/modules/common/main_page/ad_page.dart';
-import 'package:education/modules/common/settings.dart/settings.dart';
+import 'package:Finance/modules/common/main_page/ad_page.dart';
+import 'package:Finance/modules/common/settings.dart/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,45 +1,162 @@
 # Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
+frontend/*.class
+frontend/*.log
+frontend/*.pyc
+frontend/*.swp
+frontend/.DS_Store
+frontend/.atom/
+frontend/.build/
+frontend/.buildlog/
+frontend/.history
+frontend/.svn/
+frontend/.swiftpm/
+frontend/migrate_working_dir/
 
 # IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
+frontend/*.iml
+frontend/*.ipr
+frontend/*.iws
+frontend/.idea/
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
-#.vscode/
+# frontend/.vscode/
 
 # Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+frontend/**/doc/api/
+frontend/**/ios/Flutter/.last_build_id
+frontend/.dart_tool/
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
+frontend/.pub-cache/
+frontend/.pub/
+frontend/**/build/
+
+# Symbolication related
+frontend/app.*.symbols
+
+# Obfuscation related
+frontend/app.*.map.json
+
+# Android Studio will place build artifacts here
+frontend/android/app/debug
+frontend/android/app/profile
+frontend/android/app/release
+
+# ===============================
+# Universal Patterns
+# ===============================
+
+# Ignore Kotlin script files everywhere
+**/*.kts
+
+# Compiled files and logs
+*.class
+*.log
+*.pyc
+*.o
+*.out
+*.obj
+*.swp
+*.tmp
+
+# macOS system files
+.DS_Store
+
+# Linux
+*~
+
+# ===============================
+# IDE and Editor Files
+# ===============================
+
+# IntelliJ / Android Studio
+.idea/
+*.iml
+*.iws
+
+# VS Code
+.vscode/
+
+# Xcode
+*.xcworkspace
+*.xcodeproj
+*.xcuserdata/
+
+# Eclipse
+.project
+.classpath
+.cproject
+.settings/
+
+# ===============================
+# Language Specific
+# ===============================
+
+# Flutter / Dart
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
+.packages
 .pub-cache/
 .pub/
-/build/
+build/
+**/build/
+**/ios/Flutter/.last_build_id
+**/doc/api/
 
-# Symbolication related
-app.*.symbols
+# Java / Kotlin
+.gradle/
+out/
+target/
+*.jar
+*.war
+*.ear
 
-# Obfuscation related
-app.*.map.json
+# Python
+__pycache__/
+.venv/
+env/
+venv/
+*.pyo
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# Node.js / JS / TS
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+dist/
+.cache/
+.next/
+out/
+
+# Rust
+target/
+
+# Go
+bin/
+pkg/
+
+# ===============================
+# Obfuscation and Symbolication
+# ===============================
+
+*.map.json
+*.symbols
+
+# ===============================
+# Version Control
+# ===============================
+
+*.orig
+*.rej
+*.bak
+*.old
+
+# ===============================
+# Optional: Frontend Folder Specific
+# ===============================
+# Uncomment if everything is inside a `frontend/` folder
+# frontend/**/build/
+# frontend/**/*.kts

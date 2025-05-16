@@ -1,4 +1,4 @@
-import 'package:education/core/theme/k_theme.dart';
+import 'package:Finance/core/theme/k_theme.dart';
 import 'package:flutter/material.dart';
 
 class KAppBar extends StatelessWidget implements PreferredSizeWidget {

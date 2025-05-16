@@ -1,4 +1,4 @@
-import 'package:education/core/widget/k_padding.dart';
+import 'package:Finance/core/widget/k_padding.dart';
 import 'package:flutter/material.dart';
 
 class SwitchTitle extends StatelessWidget {
