@@ -1,6 +1,6 @@
-import 'package:Finance/modules/common/camera/camera_page.dart';
-import 'package:Finance/modules/common/main_page/ad_page.dart';
-import 'package:Finance/modules/common/settings.dart/settings.dart';
+import 'package:finance/modules/common/camera/camera_page.dart';
+import 'package:finance/modules/common/main_page/ad_page.dart';
+import 'package:finance/modules/common/settings.dart/settings.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {

@@ -1,6 +1,6 @@
-import 'package:Finance/core/router/routes.dart';
-import 'package:Finance/core/router/routes_name.dart';
-import 'package:Finance/core/theme/k_theme.dart';
+import 'package:finance/core/router/routes.dart';
+import 'package:finance/core/router/routes_name.dart';
+import 'package:finance/core/theme/k_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
