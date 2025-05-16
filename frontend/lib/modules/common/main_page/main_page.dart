@@ -1,7 +1,7 @@
+import 'package:Finance/modules/common/camera/camera_page.dart';
 import 'package:Finance/modules/common/main_page/ad_page.dart';
 import 'package:Finance/modules/common/settings.dart/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -11,37 +11,71 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 0;
+  late PageController _pageController;
+  int _selectedIndex = 1; // Start at center (AdPage)
 
   final List<Widget> _pages = [
+    const CameraPage(),
     const AdPage(),
-    const Settings()
+    const Settings(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _selectedIndex);
+  }
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      _selectedIndex = index + 1; // Shift index to account for camera
     });
+    _pageController.animateToPage(
+      _selectedIndex,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        children: _pages,
       ),
+      // Show BottomNavigationBar only if NOT on CameraPage (index 0)
+      bottomNavigationBar:
+          _selectedIndex == 0
+              ? null
+              : BottomNavigationBar(
+                currentIndex: (_selectedIndex - 1).clamp(0, 1),
+                onTap: (index) {
+                  setState(() {
+                    _selectedIndex = index + 1; // offset for camera page
+                    _pageController.animateToPage(
+                      _selectedIndex,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  });
+                },
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.settings),
+                    label: 'Settings',
+                  ),
+                ],
+              ),
     );
   }
 }
