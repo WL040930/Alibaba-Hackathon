@@ -19,9 +19,10 @@ class MockChatProvider {
     // Add a slight delay to simulate network request
     await Future.delayed(const Duration(milliseconds: 800));
 
-    //later will import api from backend
-    // List of generic responses for the finance app
-    final List<String> responses = ['hi'];
+    //responses for the finance app
+    final List<String> responses = [
+      'hi'
+    ];
 
     // Return a random response
     String response = responses[_random.nextInt(responses.length)];
@@ -65,11 +66,6 @@ class _ChatDetailsPageState extends State<ChatDetailsPage>
   @override
   void initState() {
     super.initState();
-
-    // Set initial context based on the chat title
-    Future.delayed(Duration.zero, () {
-      _setInitialContext();
-    });
   }
 
   @override
@@ -77,55 +73,6 @@ class _ChatDetailsPageState extends State<ChatDetailsPage>
     _messageController.dispose();
     _scrollController.dispose();
     super.dispose();
-  }
-
-  /// Sets the initial context for the conversation based on the chat title
-  void _setInitialContext() async {
-    // Only set context if this is a new conversation
-    if (_messages.length <= 1) {
-      String contextPrompt;
-
-      switch (widget.title) {
-        case 'Quick answers to your money questions':
-        case 'General Help':
-          contextPrompt =
-              'You are a helpful financial assistant ready to answer any questions';
-          break;
-        case 'Smart tips before you spend':
-        case 'Purchase Advice':
-          contextPrompt =
-              'You are a shopping advisor helping users make smart purchasing decisions and save money.';
-          break;
-        case 'See how your money was spent':
-        case 'Spending Overview':
-          contextPrompt =
-              'You are a spending analyzer helping users understand their expenses and identify saving opportunities.';
-          break;
-        case 'Easy ways to save more':
-        case 'Savings Tips':
-          contextPrompt =
-              'You are a savings coach providing practical tips to help users save more money effectively.';
-          break;
-        case 'Track your budget and goals':
-        case 'Budget Planner':
-          contextPrompt =
-              'You are a financial planner helping users create and track budgets and financial goals.';
-          break;
-        default:
-          contextPrompt = 'You are a helpful financial assistant.';
-      }
-
-      try {
-        // Set the context in the chat provider (silently)
-        await _chatProvider.sendMessage(contextPrompt);
-
-        // Clear the conversation history to remove the context-setting message
-        _chatProvider.clearConversation();
-      } catch (e) {
-        // If there's an error setting the context, just continue without it
-        print('Error setting initial context: $e');
-      }
-    }
   }
 
   void _sendMessage() async {
