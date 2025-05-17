@@ -4,20 +4,34 @@
         "category": "Food",
         "amount": 10.0,
         "date": "2025-05-17",
-        "id": "h1rx46s2ht3kqb781qro"
+        "id": "er790xeozqkd3c3qhg7w"
     },
     {
         "transactionName": "Salad",
         "category": "Food",
         "amount": 8.0,
         "date": "2025-05-17",
-        "id": "65u0yvymb61up4khie89"
+        "id": "xpreutfh0vot0xs3c4f9"
     },
     {
         "transactionName": "Soft Drink",
         "category": "Beverage",
-        "amount": 4.0,
+        "amount": 10.0,
         "date": "2025-05-17",
-        "id": "dcsni0jcna1rb7qgyw3b"
+        "id": "1mivjimdq4w0gbq5f0li"
+    },
+    {
+        "transactionName": "Pie",
+        "category": "Food",
+        "amount": 10.0,
+        "date": "2025-05-17",
+        "id": "n5ak8p8j4w4aui11bmeh"
+    },
+    {
+        "transactionName": "Tax",
+        "category": "Others",
+        "amount": 4.5,
+        "date": "2025-05-17",
+        "id": "ar2kkf0tryvlbb5109vl"
     }
 ]
