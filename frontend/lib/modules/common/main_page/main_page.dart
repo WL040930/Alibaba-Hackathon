@@ -1,6 +1,7 @@
 import 'package:finance/modules/common/camera/camera_page.dart';
 import 'package:finance/modules/common/main_page/ad_page.dart';
 import 'package:finance/modules/common/settings.dart/settings.dart';
+import 'package:finance/modules/common/chat/chat_page.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -17,6 +18,7 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _pages = [
     const CameraPage(),
     const AdPage(),
+    const ChatPage(),
     const Settings(),
   ];
 
@@ -54,7 +56,7 @@ class _MainPageState extends State<MainPage> {
           _selectedIndex == 0
               ? null
               : BottomNavigationBar(
-                currentIndex: (_selectedIndex - 1).clamp(0, 1),
+                currentIndex: (_selectedIndex - 1).clamp(0, 2),
                 onTap: (index) {
                   setState(() {
                     _selectedIndex = index + 1; // offset for camera page
@@ -69,6 +71,10 @@ class _MainPageState extends State<MainPage> {
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home),
                     label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.chat),
+                    label: 'Chat',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.settings),
