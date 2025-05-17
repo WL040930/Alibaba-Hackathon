@@ -9,7 +9,7 @@ class DataAddingViewModel extends ViewStateModel {
     try {
       print("Initializing with text: $text");
       setState(ViewState.busy); // Set loading state
-      newItems = await DataEnteringService.getItems();
+      newItems = await DataEnteringService.getItems(text);
       setState(ViewState.idle); // Done loading
     } catch (e) {
       setState(ViewState.error); // Error handling

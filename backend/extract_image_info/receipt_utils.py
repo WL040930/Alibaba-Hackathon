@@ -170,3 +170,88 @@ Example:
     else:
         print("No valid response received from the API.")
         return None
+
+@receipt_utils.route('/process_receipt_text', methods=['POST'])
+def process_receipt_text():
+    user_input = request.json.get('text')
+
+    if not user_input:
+        return {"error": "Missing 'text' in request body."}, 400
+
+    client = OpenAI(
+        api_key="sk-ac94ccedee394b3ab33d0b9fa637ed83", 
+        base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
+    )
+
+    # Dynamically fetch categories from Dart file
+    try:
+        enum_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'database', 'food_category_enum.dart') 
+        with open(enum_file_path, 'r') as file:
+            enum_content = file.read()
+        category_matches = re.findall(r'(\w+)\("([^"]+)"', enum_content)
+        categories = [cat[1] for cat in category_matches]
+    except Exception as e:
+        print(f"Error reading categories from enum file: {e}")
+        categories = ["Food", "Beverage", "Transport", "Groceries", "Entertainment", 
+                      "Shopping", "Health", "Bills", "Education", "Travel", 
+                      "Subscriptions", "Others"]
+
+    current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+
+    prompt = f"""Please extract itemized financial transaction information from the following text.
+Extract each item that involves a spending action, and for each item, return:
+- transactionName
+- amount
+- category (must be one of: {', '.join(categories)})
+- date: use {current_date}
+- id: (you can leave it blank)
+
+Text:
+\"\"\"
+{user_input}
+\"\"\"
+
+Format the output as a JSON array like:
+[
+  {{
+    "transactionName": "Lunch",
+    "category": "Food",
+    "amount": 10.50,
+    "date": "{current_date}"
+  }},
+  ...
+]
+"""
+
+    completion = client.chat.completions.create(
+        model="qwen-max",
+        messages=[
+            {"role": "user", "content": prompt}
+        ]
+    )
+
+    if completion and completion.choices:
+        response_text = completion.choices[0].message.content.strip()
+        print("Raw Text Response:", response_text)
+
+        try:
+            json_match = re.search(r'\[\s*\{.*\}\s*\]', response_text, re.DOTALL)
+            if json_match:
+                json_str = json_match.group(0)
+                extracted_info = json.loads(json_str)
+            else:
+                extracted_info = json.loads(response_text)
+
+            for item in extracted_info:
+                item['transactionName'] = item.get('transactionName') or item.pop('item', 'Unknown Item')
+                item['amount'] = item.get('amount') or item.pop('price', 0.0)
+                item['category'] = item.get('category', 'Others')
+                item['date'] = item.get('date', current_date)
+                item['id'] = item.get('id', generate_random_id())
+
+            return extracted_info
+        except Exception as e:
+            print(f"Error parsing model response: {e}")
+            return {"error": "Failed to parse model output."}, 500
+    else:
+        return {"error": "No response from language model."}, 500
