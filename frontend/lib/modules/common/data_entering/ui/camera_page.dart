@@ -1,5 +1,9 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
+import 'package:finance/core/router/routes_name.dart';
+import 'package:finance/modules/common/data_entering/ui/camera_data_checking_page.dart';
+import 'package:finance/modules/common/data_entering/ui/data_checking_page.dart';
+import 'package:finance/modules/common/data_entering/ui/siri_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -33,69 +37,20 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   Future<void> _checkPermissionsAndInitialize() async {
-    // Check camera availability first
-    try {
-      final cameras = await availableCameras();
-      if (cameras.isEmpty) {
-        setState(() {
-          _noCamera = true;
-        });
-      } else {
-        setState(() {
-          _noCamera = false;
-        });
-      }
-    } catch (e) {
-      print('Error checking cameras: $e');
-      setState(() {
-        _noCamera = true;
-      });
-    }
-
-    // Check microphone availability
-    bool micAvailable =
-        await Permission.microphone.isRestricted == false &&
-        await Permission.microphone.isDenied == false &&
-        await Permission.microphone.isPermanentlyDenied == false;
-
-    var micStatus = await Permission.microphone.status;
-
-    if (_noCamera == false) {
-      // Camera hardware present, already set _noCamera = false
-    }
-
-    if (!micAvailable) {
-      if (micStatus.isDenied) {
-        final result = await Permission.microphone.request();
-        if (result.isGranted) {
-          setState(() {
-            _noMic = false;
-          });
-        } else {
-          setState(() {
-            _noMic = true;
-          });
-        }
-      } else if (micStatus.isPermanentlyDenied) {
-        setState(() {
-          _noMic = true;
-        });
-      } else if (micStatus.isGranted) {
-        setState(() {
-          _noMic = false;
-        });
-      } else {
-        // Other cases (restricted, limited)
-        setState(() {
-          _noMic = true;
-        });
-      }
+    // Request camera permission
+    final cameraStatus = await Permission.camera.request();
+    if (!cameraStatus.isGranted) {
+      setState(() => _noCamera = true);
+      return;
     } else {
-      setState(() {
-        _noMic = false;
-      });
+      setState(() => _noCamera = false);
     }
 
+    // Request microphone permission
+    final micStatus = await Permission.microphone.request();
+    setState(() => _noMic = !micStatus.isGranted);
+
+    // Initialize camera if available
     if (!_noCamera) {
       await _initializeCamera();
     }
@@ -155,11 +110,15 @@ class _CameraPageState extends State<CameraPage> {
     }
   }
 
-  void _confirmAndSendToBackend() {
-    print('Sending to backend: ${_capturedImage?.path}');
-    setState(() {
-      _capturedImage = null;
-    });
+  void _confirmAndSendToBackend(BuildContext context) {
+    if (_capturedImage == null) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CameraDataCheckingPage(file: _capturedImage),
+        settings: const RouteSettings(name: RoutesName.cameraDataCheckingPage),
+      ),
+    );
   }
 
   void _cancelPreview() {
@@ -200,54 +159,48 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   Widget _buildPreviewArea() {
+    Widget previewContent;
+
     if (_capturedImage != null) {
-      return Image.file(
+      previewContent = Image.file(
         _capturedImage!,
         fit: BoxFit.cover,
         width: double.infinity,
         height: double.infinity,
       );
     } else if (_noCamera) {
-      return const Center(
+      previewContent = const Center(
         child: Text(
           'No camera detected on this device.',
           style: TextStyle(fontSize: 18, color: Colors.white),
         ),
       );
     } else if (_controller != null && _initializeControllerFuture != null) {
-      return FutureBuilder<void>(
+      previewContent = FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return Stack(
-              children: [
-                CameraPreview(_controller!),
-                if (_recognizedText.isNotEmpty)
-                  Positioned(
-                    bottom: 100,
-                    left: 20,
-                    right: 20,
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      color: Colors.black54,
-                      child: Text(
-                        _recognizedText,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            );
+            return CameraPreview(_controller!);
           } else {
             return const Center(child: CircularProgressIndicator());
           }
         },
       );
+    } else {
+      previewContent = const Center(child: CircularProgressIndicator());
     }
-    return const Center(child: CircularProgressIndicator());
+
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        previewContent,
+        if (_isListening)
+          Container(
+            color: Colors.black45, // dim background when listening
+            child: Center(child: SiriWaveAnimation(text: _recognizedText)),
+          ),
+      ],
+    );
   }
 
   @override
@@ -277,7 +230,11 @@ class _CameraPageState extends State<CameraPage> {
                             style: _actionButtonStyle(),
                           ),
                           ElevatedButton.icon(
-                            onPressed: _confirmAndSendToBackend,
+                            onPressed: () {
+                              if (_capturedImage != null) {
+                                _confirmAndSendToBackend(context);
+                              }
+                            },
                             icon: const Icon(Icons.send),
                             label: const Text('Send'),
                             style: _actionButtonStyle(),
@@ -292,7 +249,18 @@ class _CameraPageState extends State<CameraPage> {
                             child: IconButton(
                               iconSize: 40,
                               onPressed: () {
-                                print("Enter manually tapped");
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (context) => const DataCheckingPage(
+                                          headerName: "Enter Manually",
+                                        ),
+                                    settings: const RouteSettings(
+                                      name: RoutesName.dataCheckingPage,
+                                    ),
+                                  ),
+                                );
                               },
                               icon: const Icon(
                                 Icons.edit_note,
@@ -330,7 +298,20 @@ class _CameraPageState extends State<CameraPage> {
                               },
                               onLongPressUp: () async {
                                 if (!_noMic && _isListening) {
-                                  await _listen(); // Stop listening and show popup / print
+                                  await _listen();
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) => const DataCheckingPage(
+                                            headerName: "Enter Manually",
+                                          ),
+                                      settings: const RouteSettings(
+                                        name: RoutesName.dataCheckingPage,
+                                      ),
+                                    ),
+                                  );
                                 }
                               },
                               child: Icon(
@@ -351,8 +332,6 @@ class _CameraPageState extends State<CameraPage> {
 
   ButtonStyle _sideButtonStyle() {
     return ElevatedButton.styleFrom(
-      foregroundColor: Colors.white,
-      backgroundColor: Colors.blueAccent,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     );
@@ -360,8 +339,6 @@ class _CameraPageState extends State<CameraPage> {
 
   ButtonStyle _actionButtonStyle() {
     return ElevatedButton.styleFrom(
-      foregroundColor: Colors.white,
-      backgroundColor: Colors.green,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
