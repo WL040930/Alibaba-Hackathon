@@ -1,5 +1,5 @@
-import 'package:finance/modules/common/camera/camera_page.dart';
-import 'package:finance/modules/common/main_page/ad_page.dart';
+import 'package:finance/modules/common/data_entering/ui/camera_page.dart';
+import 'package:finance/modules/common/main_page/summary_page.dart';
 import 'package:finance/modules/common/settings.dart/settings.dart';
 import 'package:finance/modules/common/chat/chat_page.dart';
 import 'package:finance/modules/common/wishlist/wishlist_page.dart';
@@ -14,11 +14,11 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   late PageController _pageController;
-  int _selectedIndex = 1; // Start at center (AdPage)
+  int _selectedIndex = 1;
 
   final List<Widget> _pages = [
     const CameraPage(),
-    const AdPage(),
+    const SummaryPage(),
     const ChatPage(),
     const WishlistPage(),
     const Settings(),
@@ -74,8 +74,8 @@ class _MainPageState extends State<MainPage> {
                 },
                 items: const [
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'Home',
+                    icon: Icon(Icons.summarize),
+                    label: 'Summary',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.chat),

@@ -26,6 +26,8 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app requires access to microphone to record your voice.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app requires access to the camera to take pictures or videos.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
