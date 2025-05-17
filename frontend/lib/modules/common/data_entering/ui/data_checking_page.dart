@@ -11,9 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DataCheckingPage extends StatefulWidget {
-  final String? headerName;
+  final String? content;
 
-  const DataCheckingPage({super.key, required this.headerName});
+  const DataCheckingPage({super.key, required this.content});
 
   @override
   State<DataCheckingPage> createState() => _DataCheckingPageState();
@@ -55,7 +55,7 @@ class _DataCheckingPageState extends State<DataCheckingPage> {
         ),
       ],
       child: Scaffold(
-        appBar: KAppBar(title: Text(widget.headerName ?? "Data Checking")),
+        appBar: KAppBar(title: Text("Data Checking")),
         body:
             _isLoading
                 ? const Center(child: ItemCardSkeleton())
