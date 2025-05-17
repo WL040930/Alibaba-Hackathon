@@ -3,6 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:finance/core/router/routes_name.dart';
 import 'package:finance/modules/common/data_entering/ui/camera_data_checking_page.dart';
 import 'package:finance/modules/common/data_entering/ui/data_checking_page.dart';
+import 'package:finance/modules/common/data_entering/ui/enter_new_data.dart';
 import 'package:finance/modules/common/data_entering/ui/siri_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -253,9 +254,7 @@ class _CameraPageState extends State<CameraPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder:
-                                        (context) => const DataCheckingPage(
-                                          headerName: "Enter Manually",
-                                        ),
+                                        (context) => const DataCheckingPage(),
                                     settings: const RouteSettings(
                                       name: RoutesName.dataCheckingPage,
                                     ),
@@ -304,9 +303,7 @@ class _CameraPageState extends State<CameraPage> {
                                     context,
                                     MaterialPageRoute(
                                       builder:
-                                          (context) => const DataCheckingPage(
-                                            headerName: "Enter Manually",
-                                          ),
+                                          (context) => const EnterNewData(),
                                       settings: const RouteSettings(
                                         name: RoutesName.dataCheckingPage,
                                       ),
