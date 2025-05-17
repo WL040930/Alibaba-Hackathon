@@ -62,33 +62,12 @@ class _WishlistPageState extends State<WishlistPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            title,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.info_outline),
-                          onPressed: () {
-                            showWishlistItemDetails(
-                              context,
-                              title,
-                              description,
-                              '', // Empty icon
-                            );
-                          },
-                          tooltip: 'View details',
-                          constraints: const BoxConstraints(),
-                          padding: EdgeInsets.zero,
-                          iconSize: 20,
-                        ),
-                      ],
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -97,6 +76,17 @@ class _WishlistPageState extends State<WishlistPage> {
                     ),
                   ],
                 ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.arrow_forward_ios),
+                onPressed: () {
+                  showWishlistItemDetails(
+                    context,
+                    title,
+                    description,
+                    '', // Empty icon
+                  );
+                },
               ),
             ],
           ),

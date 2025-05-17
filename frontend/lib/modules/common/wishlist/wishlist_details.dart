@@ -43,19 +43,6 @@ void showWishlistItemDetails(
             onPressed: () => Navigator.of(context).pop(),
             child: const Text('Close'),
           ),
-          TextButton(
-            onPressed: () {
-              // In a real app, you would implement edit functionality
-              Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Edit functionality would be implemented here'),
-                  duration: Duration(seconds: 2),
-                ),
-              );
-            },
-            child: const Text('Edit'),
-          ),
         ],
       );
     },
