@@ -1,3 +1,4 @@
+import 'package:finance/modules/common/data_entering/ui/data_checking_page.dart';
 import 'package:finance/modules/common/main_page/main_page.dart';
 import 'package:finance/core/router/routes_name.dart';
 import 'package:flutter/material.dart';

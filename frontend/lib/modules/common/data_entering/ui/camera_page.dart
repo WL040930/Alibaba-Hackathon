@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
+import 'package:finance/core/router/routes_name.dart';
+import 'package:finance/modules/common/data_entering/ui/data_checking_page.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -33,69 +35,20 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   Future<void> _checkPermissionsAndInitialize() async {
-    // Check camera availability first
-    try {
-      final cameras = await availableCameras();
-      if (cameras.isEmpty) {
-        setState(() {
-          _noCamera = true;
-        });
-      } else {
-        setState(() {
-          _noCamera = false;
-        });
-      }
-    } catch (e) {
-      print('Error checking cameras: $e');
-      setState(() {
-        _noCamera = true;
-      });
-    }
-
-    // Check microphone availability
-    bool micAvailable =
-        await Permission.microphone.isRestricted == false &&
-        await Permission.microphone.isDenied == false &&
-        await Permission.microphone.isPermanentlyDenied == false;
-
-    var micStatus = await Permission.microphone.status;
-
-    if (_noCamera == false) {
-      // Camera hardware present, already set _noCamera = false
-    }
-
-    if (!micAvailable) {
-      if (micStatus.isDenied) {
-        final result = await Permission.microphone.request();
-        if (result.isGranted) {
-          setState(() {
-            _noMic = false;
-          });
-        } else {
-          setState(() {
-            _noMic = true;
-          });
-        }
-      } else if (micStatus.isPermanentlyDenied) {
-        setState(() {
-          _noMic = true;
-        });
-      } else if (micStatus.isGranted) {
-        setState(() {
-          _noMic = false;
-        });
-      } else {
-        // Other cases (restricted, limited)
-        setState(() {
-          _noMic = true;
-        });
-      }
+    // Request camera permission
+    final cameraStatus = await Permission.camera.request();
+    if (!cameraStatus.isGranted) {
+      setState(() => _noCamera = true);
+      return;
     } else {
-      setState(() {
-        _noMic = false;
-      });
+      setState(() => _noCamera = false);
     }
 
+    // Request microphone permission
+    final micStatus = await Permission.microphone.request();
+    setState(() => _noMic = !micStatus.isGranted);
+
+    // Initialize camera if available
     if (!_noCamera) {
       await _initializeCamera();
     }
@@ -292,7 +245,18 @@ class _CameraPageState extends State<CameraPage> {
                             child: IconButton(
                               iconSize: 40,
                               onPressed: () {
-                                print("Enter manually tapped");
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (context) => const DataCheckingPage(
+                                          headerName: "Enter Manually",
+                                        ),
+                                    settings: const RouteSettings(
+                                      name: RoutesName.dataCheckingPage,
+                                    ),
+                                  ),
+                                );
                               },
                               icon: const Icon(
                                 Icons.edit_note,

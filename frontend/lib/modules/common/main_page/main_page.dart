@@ -1,4 +1,4 @@
-import 'package:finance/modules/common/camera/camera_page.dart';
+import 'package:finance/modules/common/data_entering/ui/camera_page.dart';
 import 'package:finance/modules/common/main_page/summary_page.dart';
 import 'package:finance/modules/common/settings.dart/settings.dart';
 import 'package:flutter/material.dart';
