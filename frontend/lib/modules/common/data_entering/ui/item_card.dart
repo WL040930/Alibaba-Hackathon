@@ -21,6 +21,7 @@ class ItemCard extends StatelessWidget {
     ).format(item.date != null ? DateTime.parse(item.date!) : DateTime.now());
 
     return Card(
+      color: Colors.grey[50], 
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 3,
       margin: const EdgeInsets.symmetric(vertical: 8),

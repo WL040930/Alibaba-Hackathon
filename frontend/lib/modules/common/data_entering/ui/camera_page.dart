@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:finance/core/router/routes_name.dart';
+import 'package:finance/modules/common/data_entering/ui/camera_data_checking_page.dart';
 import 'package:finance/modules/common/data_entering/ui/data_checking_page.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -108,11 +109,15 @@ class _CameraPageState extends State<CameraPage> {
     }
   }
 
-  void _confirmAndSendToBackend() {
-    print('Sending to backend: ${_capturedImage?.path}');
-    setState(() {
-      _capturedImage = null;
-    });
+  void _confirmAndSendToBackend(BuildContext context) {
+    if (_capturedImage == null) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CameraDataCheckingPage(file: _capturedImage),
+        settings: const RouteSettings(name: RoutesName.cameraDataCheckingPage),
+      ),
+    );
   }
 
   void _cancelPreview() {
@@ -230,7 +235,11 @@ class _CameraPageState extends State<CameraPage> {
                             style: _actionButtonStyle(),
                           ),
                           ElevatedButton.icon(
-                            onPressed: _confirmAndSendToBackend,
+                            onPressed: () {
+                              if (_capturedImage != null) {
+                                _confirmAndSendToBackend(context);
+                              }
+                            },
                             icon: const Icon(Icons.send),
                             label: const Text('Send'),
                             style: _actionButtonStyle(),
@@ -315,8 +324,6 @@ class _CameraPageState extends State<CameraPage> {
 
   ButtonStyle _sideButtonStyle() {
     return ElevatedButton.styleFrom(
-      foregroundColor: Colors.white,
-      backgroundColor: Colors.blueAccent,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     );
@@ -324,8 +331,6 @@ class _CameraPageState extends State<CameraPage> {
 
   ButtonStyle _actionButtonStyle() {
     return ElevatedButton.styleFrom(
-      foregroundColor: Colors.white,
-      backgroundColor: Colors.green,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),

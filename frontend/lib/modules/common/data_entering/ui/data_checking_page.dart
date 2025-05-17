@@ -1,3 +1,4 @@
+import 'package:finance/core/widget/item_card_skeleton.dart';
 import 'package:finance/core/widget/k_app_bar.dart';
 import 'package:finance/core/widget/k_bottom_button.dart';
 import 'package:finance/core/widget/k_padding.dart';
@@ -57,12 +58,12 @@ class _DataCheckingPageState extends State<DataCheckingPage> {
         appBar: KAppBar(title: Text(widget.headerName ?? "Data Checking")),
         body:
             _isLoading
-                ? const Center(child: CircularProgressIndicator())
+                ? const Center(child: ItemCardSkeleton())
                 : Padding(
                   padding: KPadding.defaultPagePadding,
                   child: Consumer<DataAddingViewModel>(
                     builder: (context, model, _) {
-                      if (model.isBusy) return const KSkeletonList();
+                      if (model.isBusy) return const ItemCardSkeleton();
                       return Scaffold(
                         body: ListView.builder(
                           itemCount: model.newItems.length,

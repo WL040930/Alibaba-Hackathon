@@ -1,7 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:finance/modules/common/data_entering/model/item.dart';
 
 class DataEnteringService {
   static Future<List<Item>> getItems() async {
+    // Simulate a network call
+    await Future.delayed(const Duration(seconds: 2));
+
     return [
       Item(
         id: '1',
@@ -39,5 +45,13 @@ class DataEnteringService {
         date: "2025-05-14",
       ),
     ];
+  }
+
+  static Future uploadImage(File image) async {
+    final bytes = await image.readAsBytes();
+    final base64String = base64Encode(bytes);
+
+    print(base64String);
+    print("Image bytes: $bytes");
   }
 }

@@ -9,7 +9,7 @@ class KTheme {
   static ThemeData themeData() {
     return ThemeData(
       colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.blue,
+        seedColor: Colors.red,
         brightness: isDarkMode ? Brightness.dark : Brightness.light,
       ),
       useMaterial3: true,
