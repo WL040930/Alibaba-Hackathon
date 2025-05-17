@@ -91,6 +91,13 @@ class _DataCheckingPageState extends State<DataCheckingPage> {
                               context,
                               listen: false,
                             ).addItem(model.newItems);
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Items saved successfully!'),
+                              ),
+                            );
+                            Navigator.of(context).pop();
                           },
                           text: "Save",
                         ),

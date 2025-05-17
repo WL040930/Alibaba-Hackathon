@@ -67,8 +67,8 @@ class _MainPageState extends State<MainPage> {
                 },
                 items: const [
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'Home',
+                    icon: Icon(Icons.summarize),
+                    label: 'Summary',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.settings),

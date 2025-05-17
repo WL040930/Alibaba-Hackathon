@@ -14,7 +14,7 @@ class KBottomButton extends StatelessWidget {
           onPressed: onTap,
           style: ElevatedButton.styleFrom(
             minimumSize: const Size.fromHeight(48),
-            backgroundColor: Colors.blueAccent, // Custom background color
+            backgroundColor: Colors.red, // Custom background color
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12), // Rounded corners
             ),
