@@ -1,5 +1,5 @@
 import 'package:finance/modules/common/camera/camera_page.dart';
-import 'package:finance/modules/common/main_page/ad_page.dart';
+import 'package:finance/modules/common/main_page/summary_page.dart';
 import 'package:finance/modules/common/settings.dart/settings.dart';
 import 'package:flutter/material.dart';
 
@@ -12,11 +12,11 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   late PageController _pageController;
-  int _selectedIndex = 1; // Start at center (AdPage)
+  int _selectedIndex = 1;
 
   final List<Widget> _pages = [
     const CameraPage(),
-    const AdPage(),
+    const SummaryPage(),
     const Settings(),
   ];
 
