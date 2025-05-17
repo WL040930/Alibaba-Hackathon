@@ -1,0 +1,30 @@
+[
+    {
+        "ID": 1,
+        "item": "Latte Macchiato",
+        "category": "Beverage",
+        "price": 4.5,
+        "date": "2025-05-17"
+    },
+    {
+        "ID": 2,
+        "item": "Glocki",
+        "category": "Food",
+        "price": 5.0,
+        "date": "2025-05-17"
+    },
+    {
+        "ID": 3,
+        "item": "Schweinschnitzel",
+        "category": "Food",
+        "price": 22.0,
+        "date": "2025-05-17"
+    },
+    {
+        "ID": 4,
+        "item": "Ch\u00e4ssp\u00e4tzli",
+        "category": "Food",
+        "price": 18.5,
+        "date": "2025-05-17"
+    }
+]
