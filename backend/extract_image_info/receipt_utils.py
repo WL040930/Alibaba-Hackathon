@@ -29,7 +29,7 @@ def process_receipt_image_base64():
     """
     # Initialize the OpenAI client with your API key and base URL
     client = OpenAI(
-        api_key="sk-ac94ccedee394b3ab33d0b9fa637ed83", 
+        api_key="", 
         base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
     )
     
