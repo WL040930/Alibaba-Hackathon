@@ -1,4 +1,4 @@
-import 'package:finance/modules/common/camera/camera_page.dart';
+import 'package:finance/modules/common/data_entering/ui/camera_page.dart';
 import 'package:finance/modules/common/main_page/summary_page.dart';
 import 'package:finance/modules/common/settings.dart/settings.dart';
 import 'package:flutter/material.dart';
@@ -67,8 +67,8 @@ class _MainPageState extends State<MainPage> {
                 },
                 items: const [
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'Home',
+                    icon: Icon(Icons.summarize),
+                    label: 'Summary',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.settings),
