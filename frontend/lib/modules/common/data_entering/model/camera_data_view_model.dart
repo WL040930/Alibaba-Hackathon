@@ -12,8 +12,7 @@ class CameraDataViewModel extends ViewStateModel {
       setState(ViewState.busy);
       notifyListeners();
 
-      newItems = await DataEnteringService.getItems();
-      DataEnteringService.uploadImage(file);
+      newItems = await DataEnteringService.uploadImage(file);
 
       setState(ViewState.idle);
       notifyListeners();

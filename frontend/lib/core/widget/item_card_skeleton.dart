@@ -21,11 +21,6 @@ class ItemCardSkeleton extends StatelessWidget {
             children: [
               SkeletonCard(),
               SkeletonCard(),
-              SkeletonCard(),
-              SkeletonCard(),
-              SkeletonCard(),
-              SkeletonCard(),
-              SkeletonCard(),
             ],
           ),
         ),

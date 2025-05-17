@@ -254,7 +254,7 @@ class _CameraPageState extends State<CameraPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder:
-                                        (context) => const DataCheckingPage(),
+                                        (context) => const EnterNewData(),
                                     settings: const RouteSettings(
                                       name: RoutesName.dataCheckingPage,
                                     ),
@@ -303,7 +303,7 @@ class _CameraPageState extends State<CameraPage> {
                                     context,
                                     MaterialPageRoute(
                                       builder:
-                                          (context) => const EnterNewData(),
+                                          (context) => DataCheckingPage(content: _recognizedText,),
                                       settings: const RouteSettings(
                                         name: RoutesName.dataCheckingPage,
                                       ),

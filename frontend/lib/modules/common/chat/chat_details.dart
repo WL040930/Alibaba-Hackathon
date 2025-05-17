@@ -16,16 +16,42 @@ class MockChatProvider {
     // Add user message to conversation history
     _conversationHistory.add({'role': 'user', 'content': message});
 
-    // Add a slight delay to simulate network request
+    // Simulate network delay
     await Future.delayed(const Duration(milliseconds: 800));
 
-    //responses for the finance app
-    final List<String> responses = [
-      'hi'
-    ];
+    // Convert message to lowercase for easier matching
+    final input = message.toLowerCase();
 
-    // Return a random response
-    String response = responses[_random.nextInt(responses.length)];
+    String response;
+
+    // Basic hardcoded response logic
+    if (input.contains('hello') || input.contains('hi')) {
+      response = 'Hi there! How can I assist you with your finances today?';
+    } else if (input.contains('budget')) {
+      response =
+          'To manage your budget, I recommend tracking your daily expenses and setting a monthly limit.';
+    } else if (input.contains('save')) {
+      response =
+          'Saving tip: Try the 50/30/20 rule! Spend 50% on needs, 30% on wants, and save 20%.';
+    } else if (input.contains('spent') || input.contains('spending')) {
+      response =
+          'You can view your spending summary by navigating to the “Spending Overview” section.';
+    } else if (input.contains('investment') || input.contains('invest')) {
+      response =
+          'Investing regularly in diversified funds is a great strategy! I can guide you through options.';
+    } else if (input.contains('help') || input.contains('advice')) {
+      response =
+          'Sure! Just let me know what area of finance you need help with—budgeting, saving, or investing.';
+    } else if (input.contains('tip') || input.contains('tips')) {
+      response =
+          'Here’s a tip: Automate your savings to stay consistent and avoid unnecessary spending.';
+    } else if (input.contains('bye') || input.contains('goodbye')) {
+      response = 'Goodbye! Come back anytime if you need more financial help!';
+    } else {
+      // Default fallback response
+      response =
+          'I’m here to help with anything related to saving, budgeting, or spending. Could you be more specific?';
+    }
 
     // Add assistant response to conversation history
     _conversationHistory.add({'role': 'assistant', 'content': response});
@@ -33,7 +59,6 @@ class MockChatProvider {
     return response;
   }
 
-  /// Clears the conversation history
   void clearConversation() {
     _conversationHistory.clear();
   }

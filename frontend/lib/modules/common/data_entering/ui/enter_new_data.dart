@@ -71,7 +71,7 @@ class _EnterNewDataState extends State<EnterNewData> {
         builder: (context, value, child) {
           return KPage(
             child: Scaffold(
-              appBar: KAppBar(title: const Text("Edit Item")),
+              appBar: KAppBar(title: const Text("New Record")),
               body: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
