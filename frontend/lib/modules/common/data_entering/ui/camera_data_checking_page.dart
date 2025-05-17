@@ -1,15 +1,18 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:finance/core/widget/item_card_skeleton.dart';
+import 'package:finance/core/widget/k_bottom_button.dart';
+import 'package:finance/core/widget/k_app_bar.dart';
+import 'package:finance/core/widget/k_padding.dart';
+import 'package:finance/core/widget/k_page.dart';
+
 import 'package:finance/modules/common/data_entering/model/camera_data_view_model.dart';
 import 'package:finance/modules/common/data_entering/ui/edit_item.dart';
 import 'package:finance/modules/common/data_entering/ui/item_card.dart';
 import 'package:finance/modules/common/main_page/main_view_model.dart';
-import 'package:flutter/material.dart';
-import 'package:finance/core/widget/k_app_bar.dart';
-import 'package:finance/core/widget/k_padding.dart';
-import 'package:finance/core/widget/k_page.dart';
-import 'package:provider/provider.dart';
 
 class CameraDataCheckingPage extends StatefulWidget {
   final File? file;
@@ -105,12 +108,13 @@ class _CameraDataCheckingPageState extends State<CameraDataCheckingPage>
           appBar: KAppBar(title: const Text("Camera Data Checking")),
           body: Padding(
             padding: KPadding.defaultPagePadding,
-            child: SingleChildScrollView(
-              child: Consumer<CameraDataViewModel>(
-                builder:
-                    (context, model, _) => Center(
+            child: Consumer<CameraDataViewModel>(
+              builder: (context, cameraModel, _) {
+                return Column(
+                  children: [
+                    // Image + activity
+                    Center(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           if (widget.file != null)
                             _buildSpinningCircularImage(
@@ -121,7 +125,6 @@ class _CameraDataCheckingPageState extends State<CameraDataCheckingPage>
                             )
                           else
                             const Text('No image selected.'),
-
                           const SizedBox(height: 24),
                           ElevatedButton.icon(
                             onPressed: _showFullImage,
@@ -139,39 +142,56 @@ class _CameraDataCheckingPageState extends State<CameraDataCheckingPage>
                               ),
                             ),
                           ),
-
-                          const SizedBox(height: 24),
-
-                          if (model.isBusy)
-                            const ItemCardSkeleton()
-                          else
-                            ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: model.newItems.length,
-                              itemBuilder: (context, index) {
-                                final item = model.newItems[index];
-                                return ItemCard(
-                                  item: item,
-                                  onEdit: () async {
-                                    final edited = await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => EditItem(item: item),
-                                      ),
-                                    );
-                                    if (edited != null) {
-                                      // Handle update if needed
-                                    }
-                                  },
-                                );
-                              },
-                            ),
                         ],
                       ),
                     ),
-              ),
+
+                    const SizedBox(height: 24),
+
+                    // Results or skeleton
+                    if (cameraModel.isBusy)
+                      const ItemCardSkeleton()
+                    else
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: cameraModel.newItems.length,
+                          itemBuilder: (context, index) {
+                            final item = cameraModel.newItems[index];
+                            return ItemCard(
+                              item: item,
+                              showEditIcon: false,
+                              onEdit: () async {
+                                // final edited = await Navigator.push<Item>(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (_) => EditItem(item: item),
+                                //   ),
+                                // );
+                                // if (edited != null) {
+                                //   cameraModel.updateItem(edited);
+                                // }
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                  ],
+                );
+              },
             ),
+          ),
+          // Save button: needs both cameraModel and mainModel
+          bottomNavigationBar: Consumer2<CameraDataViewModel, MainViewModel>(
+            builder: (context, cameraModel, mainModel, _) {
+              return KBottomButton(
+                text: "Save",
+                onTap: () {
+                  // merge cameraModel.newItems into mainModel
+                  mainModel.addItem(cameraModel.newItems);
+                  Navigator.of(context).pop(); // or show a snackbar
+                },
+              );
+            },
           ),
         ),
       ),

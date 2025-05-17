@@ -5,8 +5,9 @@ import 'package:finance/modules/common/data_entering/model/item.dart';
 class DataAddingViewModel extends ViewStateModel {
   List<Item> newItems = [];
 
-  Future<void> init() async {
+  Future<void> init(String text) async {
     try {
+      print("Initializing with text: $text");
       setState(ViewState.busy); // Set loading state
       newItems = await DataEnteringService.getItems();
       setState(ViewState.idle); // Done loading

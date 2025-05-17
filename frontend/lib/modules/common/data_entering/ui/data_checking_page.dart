@@ -31,7 +31,7 @@ class _DataCheckingPageState extends State<DataCheckingPage> {
   }
 
   Future<void> _initialize() async {
-    await _dataAddingViewModel.init();
+    await _dataAddingViewModel.init(widget.content ?? "");
     setState(() {
       _isLoading = false;
     });

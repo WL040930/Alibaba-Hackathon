@@ -21,7 +21,7 @@ class _MainPageState extends State<MainPage> {
     const SummaryPage(),
     const ChatPage(),
     const WishlistPage(),
-    const Settings(),
+    // const Settings(),
   ];
 
   @override
@@ -85,10 +85,10 @@ class _MainPageState extends State<MainPage> {
                     icon: Icon(Icons.favorite_border),
                     label: 'Wishlist',
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.settings),
-                    label: 'Settings',
-                  ),
+                  // BottomNavigationBarItem(
+                  //   icon: Icon(Icons.settings),
+                  //   label: 'Settings',
+                  // ),
                 ],
               ),
     );

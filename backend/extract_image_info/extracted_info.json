@@ -1,30 +1,23 @@
 [
     {
-        "ID": 1,
-        "item": "Latte Macchiato",
+        "transactionName": "Burger",
+        "category": "Food",
+        "amount": 10.0,
+        "date": "2025-05-17",
+        "id": "h1rx46s2ht3kqb781qro"
+    },
+    {
+        "transactionName": "Salad",
+        "category": "Food",
+        "amount": 8.0,
+        "date": "2025-05-17",
+        "id": "65u0yvymb61up4khie89"
+    },
+    {
+        "transactionName": "Soft Drink",
         "category": "Beverage",
-        "price": 4.5,
-        "date": "2025-05-17"
-    },
-    {
-        "ID": 2,
-        "item": "Glocki",
-        "category": "Food",
-        "price": 5.0,
-        "date": "2025-05-17"
-    },
-    {
-        "ID": 3,
-        "item": "Schweinschnitzel",
-        "category": "Food",
-        "price": 22.0,
-        "date": "2025-05-17"
-    },
-    {
-        "ID": 4,
-        "item": "Ch\u00e4ssp\u00e4tzli",
-        "category": "Food",
-        "price": 18.5,
-        "date": "2025-05-17"
+        "amount": 4.0,
+        "date": "2025-05-17",
+        "id": "dcsni0jcna1rb7qgyw3b"
     }
 ]
